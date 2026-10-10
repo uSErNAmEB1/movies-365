@@ -1,401 +1,498 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Movies 365 | Movie Collection</title>
+<title>Movies 365 | Watch & Explore</title>
 
 <style>
 * {
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  margin: 0;
-  background: #101116;
-  color: #fff;
-  font-family: Arial, sans-serif;
+    background: #080808;
+    color: white;
+    font-family: Arial, sans-serif;
 }
 
 header {
-  background: #191a22;
-  padding: 20px 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 5%;
+    background: linear-gradient(#111, #080808);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    gap: 20px;
+    flex-wrap: wrap;
 }
 
 .logo {
-  font-size: 27px;
-  font-weight: bold;
-  color: #ffca28;
+    font-size: 28px;
+    font-weight: bold;
+    color: #f5c518;
 }
 
 .logo span {
-  color: #fff;
+    color: white;
 }
 
-nav a {
-  color: #ddd;
-  text-decoration: none;
-  margin: 0 8px;
+.search-box {
+    padding: 12px 16px;
+    width: min(320px, 100%);
+    border: 1px solid #444;
+    border-radius: 6px;
+    background: #1c1c1c;
+    color: white;
+    outline: none;
 }
 
 .hero {
-  padding: 45px 5%;
-  background: linear-gradient(120deg, #25243a, #111116);
+    min-height: 320px;
+    padding: 65px 6%;
+    display: flex;
+    align-items: center;
+    background:
+      linear-gradient(90deg, #080808 5%, rgba(8,8,8,.85) 45%, rgba(8,8,8,.25)),
+      linear-gradient(0deg, #080808, transparent 60%),
+      radial-gradient(ellipse at 75% 35%, #6b1919, #241010 40%, #080808 75%);
+}
+
+.hero-content {
+    max-width: 650px;
+}
+
+.badge {
+    display: inline-block;
+    background: #f5c518;
+    color: #111;
+    padding: 6px 10px;
+    font-weight: bold;
+    border-radius: 3px;
+    font-size: 12px;
+    margin-bottom: 15px;
 }
 
 .hero h1 {
-  font-size: 36px;
-  margin: 0 0 12px;
+    font-size: clamp(36px, 6vw, 58px);
+    margin-bottom: 15px;
 }
 
 .hero p {
-  color: #ccc;
+    color: #ddd;
+    line-height: 1.7;
+    margin-bottom: 22px;
 }
 
-.search {
-  width: 100%;
-  max-width: 520px;
-  padding: 14px;
-  border-radius: 8px;
-  border: 1px solid #444;
-  background: #22232c;
-  color: #fff;
-  font-size: 16px;
-}
-
-.categories {
-  padding: 20px 5%;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.categories button {
-  padding: 10px 17px;
-  border: 0;
-  border-radius: 20px;
-  background: #292a34;
-  color: white;
-  cursor: pointer;
-}
-
-.categories button.active,
-.categories button:hover {
-  background: #ffca28;
-  color: #111;
+.hero button {
+    background: #f5c518;
+    color: #111;
+    padding: 13px 22px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 main {
-  padding: 10px 5% 40px;
+    padding: 25px 5%;
 }
 
 .section-title {
-  font-size: 23px;
-  margin: 15px 0 20px;
+    font-size: 24px;
+    margin: 15px 0 20px;
 }
 
-.movies {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
-  gap: 20px;
+.filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
 }
 
-.card {
-  background: #1c1d25;
-  border-radius: 10px;
-  overflow: hidden;
+.filter-btn {
+    background: #202020;
+    color: white;
+    border: 1px solid #444;
+    padding: 9px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: #f5c518;
+    color: #111;
+    border-color: #f5c518;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: 22px 15px;
+}
+
+.movie-card {
+    min-width: 0;
+    background: #151515;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform .2s, box-shadow .2s;
+}
+
+.movie-card:hover {
+    transform: scale(1.04);
+    box-shadow: 0 8px 25px #000;
 }
 
 .poster {
-  height: 220px;
-  background: #30313d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #ffca28;
-  text-align: center;
-  padding: 10px;
-  font-size: 48px;
+    height: 225px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #451515, #171717 70%);
+    overflow: hidden;
 }
 
-.info {
-  padding: 12px;
-  overflow-wrap: anywhere;
+.poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    inset: 0;
 }
 
-.info h3 {
-  font-size: 16px;
-  margin: 0 0 7px;
+.poster-icon {
+    font-size: 48px;
+    opacity: .8;
 }
 
-.info p {
-  font-size: 13px;
-  color: #bbb;
-  margin: 5px 0;
+.poster-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 28px 8px 10px;
+    background: linear-gradient(transparent, rgba(0,0,0,.9));
+    font-size: 12px;
+    font-weight: bold;
 }
 
-.info a {
-  display: block;
-  text-align: center;
-  margin-top: 12px;
-  padding: 10px;
-  background: #ffca28;
-  color: #111;
-  text-decoration: none;
-  font-weight: bold;
-  border-radius: 5px;
+.movie-info {
+    padding: 12px;
 }
 
-.info a:hover {
-  background: #ffe082;
+.movie-info h3 {
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    margin-bottom: 8px;
 }
 
-.empty {
-  color: #bbb;
-  padding: 20px 0;
+.language {
+    display: inline-block;
+    color: #f5c518;
+    font-size: 11px;
+    margin-bottom: 12px;
+}
+
+.watch-btn {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    background: #f5c518;
+    color: #111;
+    padding: 10px 5px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
 }
 
 .status {
-  color: #ffca28;
-  padding: 15px 0;
+    color: #bbb;
+    padding: 20px 0;
+    line-height: 1.7;
 }
 
 footer {
-  text-align: center;
-  padding: 25px;
-  background: #191a22;
-  color: #aaa;
-  font-size: 13px;
+    text-align: center;
+    color: #888;
+    padding: 35px 15px;
+    margin-top: 35px;
+    border-top: 1px solid #222;
+    font-size: 13px;
 }
 
 @media (max-width: 500px) {
-  .hero h1 {
-    font-size: 29px;
-  }
+    header {
+        padding: 16px 4%;
+    }
 
-  .movies {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+    .logo {
+        font-size: 23px;
+    }
 
-  .poster {
-    height: 190px;
-  }
+    .search-box {
+        width: 100%;
+    }
+
+    .hero {
+        min-height: 270px;
+        padding: 40px 5%;
+    }
+
+    main {
+        padding: 20px 4%;
+    }
+
+    .movie-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px 10px;
+    }
+
+    .poster {
+        height: 210px;
+    }
 }
 </style>
-
 </head>
 
 <body>
 
 <header>
-  <div class="logo">MOVIES <span>365</span></div>
+    <div class="logo">MOVIES <span>365</span></div>
 
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#collection">Movies</a>
-  </nav>
+    <input
+        id="searchInput"
+        class="search-box"
+        type="search"
+        placeholder="Search movies..."
+        aria-label="Search movies"
+    >
 </header>
 
-<section class="hero" id="home">
-  <h1>Discover Your Next Movie</h1>
-
-  <p>
-    Explore videos and stories from different languages.
-  </p>
-
-<input
-type="search"
-id="search"
-class="search"
-placeholder="Search videos..."
-aria-label="Search videos"
-
->
-
+<section class="hero">
+    <div class="hero-content">
+        <div class="badge">WELCOME TO MOVIES 365</div>
+        <h1 id="heroTitle">Discover Your Next Favourite</h1>
+        <p>
+            Explore your movie collection in one place.
+            Search titles and browse by language.
+        </p>
+        <button onclick="document.getElementById('movies').scrollIntoView({behavior:'smooth'})">
+            🎬 Explore Collection
+        </button>
+    </div>
 </section>
 
-<section class="categories" id="categories">
-  <button type="button" class="active" data-language="All">All</button>
-  <button type="button" data-language="Telugu">Telugu</button>
-  <button type="button" data-language="Tamil">Tamil</button>
-  <button type="button" data-language="Hindi">Hindi</button>
-  <button type="button" data-language="Malayalam">Malayalam</button>
-  <button type="button" data-language="Kannada">Kannada</button>
-  <button type="button" data-language="English">English</button>
-</section>
+<main id="movies">
+    <h2 class="section-title">Explore Movies</h2>
 
-<main id="collection">
-  <h2 class="section-title">Movie Collection</h2>
+    <div class="filters">
+        <button class="filter-btn active" data-language="All">All</button>
+        <button class="filter-btn" data-language="Telugu">Telugu</button>
+        <button class="filter-btn" data-language="Tamil">Tamil</button>
+        <button class="filter-btn" data-language="Hindi">Hindi</button>
+        <button class="filter-btn" data-language="Malayalam">Malayalam</button>
+        <button class="filter-btn" data-language="Kannada">Kannada</button>
+        <button class="filter-btn" data-language="English">English</button>
+    </div>
 
-  <p id="status" class="status">Connecting to Google Drive...</p>
-
-  <div id="movies" class="movies"></div>
-
-  <p id="empty" class="empty" hidden>
-    No videos found.
-  </p>
+    <p id="status" class="status">Loading your collection...</p>
+    <div id="movieGrid" class="movie-grid"></div>
 </main>
 
 <footer>
-  © <span id="year"></span> Movies 365.
-  Only authorized videos are listed.
+    <p>© <span id="year"></span> Movies 365 | Your Movie Collection</p>
 </footer>
 
 <script>
-"use strict";
+const API_URL = "https://script.google.com/macros/s/AKfycbzGwnAFDvwgMTEKhCDqNcDcvAVXDwnJs6OTrhcaMH1fulOGSKtk5hYT8Fa-LitBbCElzw/exec";
 
-/*
-  Google Apps Script Web App URL
-*/
-const API_URL =
-  "https://script.google.com/macros/s/AKfycbzGwnAFDvwgMTEKhCDqNcDcvAVXDwnJs6OTrhcaMH1fulOGSKtk5hYT8Fa-LitBbCElzw/exec";
+const grid = document.getElementById("movieGrid");
+const statusText = document.getElementById("status");
+const searchInput = document.getElementById("searchInput");
 
-let movies = [];
-let selectedLanguage = "All";
+let allMovies = [];
+let activeLanguage = "All";
 
-const movieContainer = document.getElementById("movies");
-const searchInput = document.getElementById("search");
-const emptyMessage = document.getElementById("empty");
-const statusMessage = document.getElementById("status");
-
-document.getElementById("year").textContent =
-  new Date().getFullYear();
+document.getElementById("year").textContent = new Date().getFullYear();
 
 function getLanguage(name) {
-  const text = name.toLowerCase();
+    const text = name.toLowerCase();
 
-  if (text.includes("telugu")) return "Telugu";
-  if (text.includes("tamil")) return "Tamil";
-  if (text.includes("hindi")) return "Hindi";
-  if (text.includes("malayalam")) return "Malayalam";
-  if (text.includes("kannada")) return "Kannada";
-  if (text.includes("english")) return "English";
+    if (/\b(telugu|te|tlg)\b/.test(text)) return "Telugu";
+    if (/\b(tamil|tam)\b/.test(text)) return "Tamil";
+    if (/\b(hindi|hin)\b/.test(text)) return "Hindi";
+    if (/\b(malayalam|mal)\b/.test(text)) return "Malayalam";
+    if (/\b(kannada|kan)\b/.test(text)) return "Kannada";
+    if (/\b(english|eng)\b/.test(text)) return "English";
 
-  return "Other";
+    return "Other";
+}
+
+function cleanTitle(name) {
+    return name
+        .replace(/\.[^/.]+$/, "")
+        .replace(/[._]+/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
 }
 
 function renderMovies() {
-  const query = searchInput.value.trim().toLowerCase();
+    const query = searchInput.value.toLowerCase().trim();
 
-  const filtered = movies.filter(movie => {
-    const matchesLanguage =
-      selectedLanguage === "All" ||
-      movie.language === selectedLanguage;
+    const filtered = allMovies.filter(movie => {
+        const matchesSearch = movie.name.toLowerCase().includes(query);
+        const matchesLanguage =
+            activeLanguage === "All" ||
+            movie.language === activeLanguage;
 
-    const matchesSearch =
-      movie.title.toLowerCase().includes(query);
+        return matchesSearch && matchesLanguage;
+    });
 
-    return matchesLanguage && matchesSearch;
-  });
+    grid.innerHTML = "";
 
-  movieContainer.replaceChildren();
+    if (filtered.length === 0) {
+        statusText.textContent = allMovies.length
+            ? "No matching movies found."
+            : "No videos found in your collection.";
 
-  emptyMessage.hidden = filtered.length > 0;
+        return;
+    }
 
-  filtered.forEach(movie => {
-    const card = document.createElement("article");
-    card.className = "card";
+    statusText.textContent = `${filtered.length} video(s) in your collection`;
 
-    const poster = document.createElement("div");
-    poster.className = "poster";
-    poster.textContent = "🎬";
+    filtered.forEach(movie => {
+        const card = document.createElement("article");
+        card.className = "movie-card";
 
-    const info = document.createElement("div");
-    info.className = "info";
+        const poster = document.createElement("div");
+        poster.className = "poster";
 
-    const title = document.createElement("h3");
-    title.textContent = movie.title;
+        const icon = document.createElement("div");
+        icon.className = "poster-icon";
+        icon.textContent = "🎬";
+        poster.appendChild(icon);
 
-    const details = document.createElement("p");
-    details.textContent = movie.language;
+        // Google Drive thumbnail may not be available for every video.
+        const img = document.createElement("img");
+        img.alt = cleanTitle(movie.name);
+        img.loading = "lazy";
+        img.src = `https://drive.google.com/thumbnail?id=${encodeURIComponent(movie.id)}&sz=w500`;
 
-    const link = document.createElement("a");
-    link.href = movie.url;
-    link.textContent = "Open in Google Drive";
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
+        img.onload = () => {
+            if (img.naturalWidth > 0) {
+                icon.style.display = "none";
+            }
+        };
 
-    info.append(title, details, link);
-    card.append(poster, info);
-    movieContainer.appendChild(card);
-  });
+        img.onerror = () => {
+            img.remove();
+        };
+
+        poster.appendChild(img);
+
+        const label = document.createElement("div");
+        label.className = "poster-label";
+        label.textContent = movie.language === "Other"
+            ? "MOVIES 365"
+            : movie.language.toUpperCase();
+
+        poster.appendChild(label);
+
+        const info = document.createElement("div");
+        info.className = "movie-info";
+
+        const title = document.createElement("h3");
+        title.textContent = cleanTitle(movie.name);
+
+        const language = document.createElement("div");
+        language.className = "language";
+        language.textContent = movie.language === "Other"
+            ? "Video"
+            : movie.language;
+
+        const link = document.createElement("a");
+        link.className = "watch-btn";
+        link.textContent = "▶ Open Video";
+        link.href = `https://drive.google.com/file/d/${encodeURIComponent(movie.id)}/view`;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+
+        info.appendChild(title);
+        info.appendChild(language);
+        info.appendChild(link);
+
+        card.appendChild(poster);
+        card.appendChild(info);
+        grid.appendChild(card);
+    });
+
+    if (filtered.length > 0) {
+        document.getElementById("heroTitle").textContent =
+            cleanTitle(filtered[0].name);
+    }
 }
 
 async function loadMovies() {
-  statusMessage.hidden = false;
-  statusMessage.textContent = "Loading videos from Google Drive...";
+    statusText.textContent = "Loading your collection...";
 
-  try {
-    const response = await fetch(API_URL);
+    try {
+        const response = await fetch(API_URL);
 
-    if (!response.ok) {
-      throw new Error("Server returned HTTP " + response.status);
+        if (!response.ok) {
+            throw new Error("Could not connect to the movie collection.");
+        }
+
+        const data = await response.json();
+
+        const files = Array.isArray(data)
+            ? data
+            : (data.files || data.movies || []);
+
+        allMovies = files
+            .filter(file => file.id && file.name)
+            .filter(file => {
+                const mime = file.mimeType || "";
+                return mime.startsWith("video/") ||
+                       /\.(mp4|mkv|mov|webm|avi|m4v)$/i.test(file.name);
+            })
+            .map(file => ({
+                id: file.id,
+                name: file.name,
+                language: getLanguage(file.name)
+            }));
+
+        renderMovies();
+
+    } catch (error) {
+        statusText.textContent =
+            "Could not load videos. Please refresh the page and try again.";
+
+        console.error(error);
     }
-
-    const files = await response.json();
-
-    if (!Array.isArray(files)) {
-      throw new Error("Unexpected API response");
-    }
-
-    movies = files
-      .filter(file =>
-        file.mimeType &&
-        file.mimeType.startsWith("video/")
-      )
-      .map(file => ({
-        title: file.name.replace(/\.[^/.]+$/, ""),
-        language: getLanguage(file.name),
-        url:
-          "https://drive.google.com/file/d/" +
-          encodeURIComponent(file.id) +
-          "/view"
-      }));
-
-    statusMessage.hidden = true;
-    renderMovies();
-
-    if (movies.length === 0) {
-      emptyMessage.textContent =
-        "No video files found in the Google Drive folder.";
-      emptyMessage.hidden = false;
-    }
-  } catch (error) {
-    console.error("Movies 365 error:", error);
-
-    statusMessage.hidden = false;
-    statusMessage.textContent =
-      "Could not load videos. Please check the Google Drive connection.";
-
-    movieContainer.replaceChildren();
-    emptyMessage.hidden = true;
-  }
 }
 
-document.getElementById("categories").addEventListener("click", event => {
-  const button = event.target.closest("button[data-language]");
-
-  if (!button) return;
-
-  selectedLanguage = button.dataset.language;
-
-  document
-    .querySelectorAll("#categories button")
-    .forEach(item => {
-      item.classList.toggle("active", item === button);
-    });
-
-  renderMovies();
-});
-
 searchInput.addEventListener("input", renderMovies);
+
+document.querySelectorAll(".filter-btn").forEach(button => {
+    button.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+        activeLanguage = button.dataset.language;
+        renderMovies();
+    });
+});
 
 loadMovies();
 </script>
